@@ -69,7 +69,8 @@ class MainFeedActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        // for doing nothing
+        finishAffinity()
+        finish()
     }
 
 }

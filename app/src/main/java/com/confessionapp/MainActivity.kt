@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         passEditText = findViewById(R.id.passwordEditText);
         nameEditText = findViewById(R.id.nameEditText)
 
+        if (mAuth.currentUser!=null){
+            logIn()
+        }
+
     }
 
     fun loginClicked(view: View){

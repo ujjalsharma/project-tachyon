@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "277759534959",
+    "firebase_url": "https://projecttachyon-c1f4e.firebaseio.com",
+    "project_id": "projecttachyon-c1f4e",
+    "storage_bucket": "projecttachyon-c1f4e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277759534959:android:5bfba6659a37f5603aea9a",
+        "android_client_info": {
+          "package_name": "com.confessionapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277759534959-v7ltr145s31lsm8oho7egn64rjtq7h07.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyDuVGK8a6OXWvD2lHnK90aupicysUorY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277759534959-v7ltr145s31lsm8oho7egn64rjtq7h07.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

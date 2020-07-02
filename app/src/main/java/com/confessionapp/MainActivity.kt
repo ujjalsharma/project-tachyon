@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
     fun logIn(){
 
         val intent = Intent(this, MainFeedActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
 
     }

@@ -91,7 +91,7 @@ class WriteConfessionActivity : AppCompatActivity() {
 
                 Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this, WriteConfessionActivity::class.java)
+                val intent = Intent(this, MainFeedActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
 

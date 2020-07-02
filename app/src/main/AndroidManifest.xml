@@ -13,7 +13,6 @@
         <activity
             android:name=".MainFeedActivity"
             android:label="@string/title_activity_main_feed"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"

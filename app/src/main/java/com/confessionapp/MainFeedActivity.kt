@@ -40,6 +40,7 @@ class MainFeedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_feed)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
+        toolbar.setNavigationIcon(R.drawable.ic_menu_camera);
         setSupportActionBar(toolbar)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)

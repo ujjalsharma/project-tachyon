@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -18,12 +19,21 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.FirebaseError
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class MainFeedActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     val mAuth = FirebaseAuth.getInstance()
+    var userEmailTextView: TextView? = null
+    var userNameTextView: TextView? = null
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +41,6 @@ class MainFeedActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_feed)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -45,6 +54,22 @@ class MainFeedActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+        //Set up Account Information
+        val headerView : View = navView.getHeaderView(0)
+        userEmailTextView = headerView.findViewById(R.id.userEmailTextView)
+        userEmailTextView?.text = mAuth.currentUser?.email.toString()
+        userNameTextView = headerView.findViewById(R.id.usernameTextView)
+        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("name").addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userNameTextView?.text = snapshot.value.toString()
+            }
+            override fun onCancelled(error: DatabaseError) { }
+        })
+
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -60,6 +85,8 @@ class MainFeedActivity : AppCompatActivity() {
         } else if (item?.itemId == R.id.action_create) {
             val intent = Intent(this, WriteConfessionActivity::class.java)
             startActivity(intent)
+        } else if (item?.itemId == R.id.action_settings) {
+            Toast.makeText(this, "In progress!", Toast.LENGTH_SHORT).show()
         }
 
 

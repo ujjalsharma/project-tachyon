@@ -10,19 +10,23 @@ class Post {
     var year: String? = null
     var branch: String? = null
     var gender: String? = null
-    var timeStamp: Any? = null
+    var timestamp: String? = null
+    var postNumber: String? = null
 
     constructor(
         confession: String?,
         year: String?,
         branch: String?,
-        gender: String?
+        gender: String?,
+        timestamp: String?,
+        postNumber: String?
     ) {
         this.confession = confession
         this.year =year
         this.branch = branch
         this.gender = gender
-        timeStamp = ServerValue.TIMESTAMP
+        this.timestamp = timestamp
+        this.postNumber = postNumber
     }
 
     // make sure to have an empty constructor inside ur model class

@@ -22,14 +22,14 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="206dp"
+        android:layout_width="356dp"
+        android:layout_height="176dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeStampTextView">
+        app:layout_constraintTop_toBottomOf="@+id/postNumberTextView">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,5 +126,18 @@
             app:layout_gravity="fill"
             app:layout_rowWeight="1" />
     </androidx.gridlayout.widget.GridLayout>
+
+    <TextView
+        android:id="@+id/postNumberTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="8dp"
+        android:text="#PostNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timeStampTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

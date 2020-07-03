@@ -20,10 +20,11 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.postTextView.text = mData[position].confession
-        holder.timeStampTextView.text = mData[position].timeStamp.toString()
+        holder.timeStampTextView.text = mData[position].timestamp
         holder.yearTextView.text = mData[position].year
         holder.branchTextView.text = mData[position].branch
         holder.genderTextView.text = mData[position].gender
+        holder.postNoTextView.text = "#" +mData[position].postNumber
     }
 
     override fun getItemCount(): Int {
@@ -37,6 +38,7 @@ class PostAdapter(
         var yearTextView: TextView
         var branchTextView: TextView
         var genderTextView: TextView
+        var postNoTextView: TextView
 
         init {
             timeStampTextView = itemView.findViewById(R.id.timeStampTextView)
@@ -44,6 +46,7 @@ class PostAdapter(
             yearTextView = itemView.findViewById(R.id.yearTextView)
             branchTextView = itemView.findViewById(R.id.branchTextView)
             genderTextView = itemView.findViewById(R.id.genderTextView)
+            postNoTextView = itemView.findViewById(R.id.postNumberTextView)
         }
     }
 

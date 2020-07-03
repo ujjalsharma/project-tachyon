@@ -9,7 +9,12 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import java.text.SimpleDateFormat
+import java.util.*
 
 class WriteConfessionActivity : AppCompatActivity() {
 
@@ -18,6 +23,7 @@ class WriteConfessionActivity : AppCompatActivity() {
     var yearSpinner: Spinner? = null
     var branchSpinner: Spinner? = null
     var confessionEditText: TextInputEditText? = null
+    var postNumber: Int? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +72,16 @@ class WriteConfessionActivity : AppCompatActivity() {
         }
 
 
+        FirebaseDatabase.getInstance().getReference().child("confessions").addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                postNumber = dataSnapshot.childrenCount.toInt() + 1
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {}
+        })
+
+
 
 
     }
@@ -79,12 +95,17 @@ class WriteConfessionActivity : AppCompatActivity() {
             val year: String = yearSpinner?.selectedItem.toString()
             val branch: String = branchSpinner?.selectedItem.toString()
             val confession = confessionEditText?.text.toString()
+            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val currentDate = sdf.format(Date())
+
 
             val confessionMap: Map<String, String> = mapOf(
                 "confession" to confession,
                 "year" to year,
                 "branch" to branch,
-                "gender" to gender
+                "gender" to gender,
+                "timestamp" to currentDate,
+                "postNumber" to postNumber.toString()
             )
             FirebaseDatabase.getInstance().getReference().child("confessions").push()
                 .setValue(confessionMap).addOnSuccessListener {

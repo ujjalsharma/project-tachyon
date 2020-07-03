@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.confessionapp.PostAdapter.MyViewHolder
 
+
 class PostAdapter(
     var mContext: Context,
     var mData: List<Post>
@@ -20,7 +21,7 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.postTextView.text = mData[position].confession
-        holder.timeStampTextView.text = mData[position].timestamp
+        holder.timeStampTextView.text = timesAgo(mData[position].timestamp)
         holder.yearTextView.text = mData[position].year
         holder.branchTextView.text = mData[position].branch
         holder.genderTextView.text = mData[position].gender
@@ -49,5 +50,12 @@ class PostAdapter(
             postNoTextView = itemView.findViewById(R.id.postNumberTextView)
         }
     }
+
+    fun timesAgo(time: String?): String? {
+        val timeAgo2 = TimeShow()
+        val MyFinalValue = timeAgo2.covertTimeToText(time)
+        return MyFinalValue
+    }
+
 
 }

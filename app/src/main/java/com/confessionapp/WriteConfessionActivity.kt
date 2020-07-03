@@ -95,7 +95,7 @@ class WriteConfessionActivity : AppCompatActivity() {
             val year: String = yearSpinner?.selectedItem.toString()
             val branch: String = branchSpinner?.selectedItem.toString()
             val confession = confessionEditText?.text.toString()
-            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             val currentDate = sdf.format(Date())
 
 

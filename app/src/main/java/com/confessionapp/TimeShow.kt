@@ -22,21 +22,41 @@ class TimeShow {
             val hour = TimeUnit.MILLISECONDS.toHours(dateDiff)
             val day = TimeUnit.MILLISECONDS.toDays(dateDiff)
             if (second < 60) {
-                convTime = "$second seconds $suffix"
-            } else if (minute < 60) {
-                convTime = "$minute minutes $suffix"
-            } else if (hour < 24) {
-                convTime = "$hour hours $suffix"
-            } else if (day >= 7) {
-                convTime = if (day > 360) {
-                    (day / 360).toString() + " years " + suffix
-                } else if (day > 30) {
-                    (day / 30).toString() + " months " + suffix
-                } else {
-                    (day / 7).toString() + " week " + suffix
+                if (second == 1L){
+                    convTime = "$second second $suffix"
+                } else{
+                    convTime = "$second seconds $suffix"
                 }
+
+            } else if (minute < 60) {
+                if (minute==1L){
+                    convTime = "$minute minute $suffix"
+                } else {
+                    convTime = "$minute minutes $suffix"
+                }
+
+            } else if (hour < 24) {
+                if (hour==1L){
+                    convTime = "$hour hour $suffix"
+                } else {
+                    convTime = "$hour hours $suffix"
+                }
+
+
             } else if (day < 7) {
-                convTime = "$day days $suffix"
+                if (day==1L){
+                    convTime = "$day day $suffix"
+                } else {
+                    convTime = "$day days $suffix"
+                }
+
+            } else if (day >= 7) {
+                val curFormater =
+                    SimpleDateFormat("dd MMMM yyyy")
+                val dateObj = curFormater.parse(dataDate)
+
+                val newDateStr = curFormater.format(dateObj)
+                convTime = newDateStr
             }
         } catch (e: ParseException) {
             e.printStackTrace()

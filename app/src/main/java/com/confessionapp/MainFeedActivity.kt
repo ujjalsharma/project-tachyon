@@ -103,6 +103,12 @@ class MainFeedActivity : AppCompatActivity() {
         finishAffinity()
     }
 
+    fun profileImageClicked(view: View) {
+        val intent = Intent(this, AccountInfoActivity::class.java)
+        startActivity(intent)
+
+    }
+
 
 
 

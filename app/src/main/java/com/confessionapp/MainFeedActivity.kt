@@ -1,30 +1,30 @@
 package com.confessionapp
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import com.google.firebase.FirebaseError
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainFeedActivity : AppCompatActivity() {
 
@@ -32,8 +32,7 @@ class MainFeedActivity : AppCompatActivity() {
     val mAuth = FirebaseAuth.getInstance()
     var userEmailTextView: TextView? = null
     var userNameTextView: TextView? = null
-
-
+    var navProfileImage: CircleImageView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,9 +61,21 @@ class MainFeedActivity : AppCompatActivity() {
         userEmailTextView = headerView.findViewById(R.id.userEmailTextView)
         userEmailTextView?.text = mAuth.currentUser?.email.toString()
         userNameTextView = headerView.findViewById(R.id.usernameTextView)
-        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("name").addListenerForSingleValueEvent(object : ValueEventListener {
+        navProfileImage = headerView.findViewById(R.id.nav_profile_image)
+
+
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                userNameTextView?.text = snapshot.value.toString()
+                userNameTextView?.text = snapshot.child("name").value.toString()
+                val task = ImageDownloader()
+                val myImage: Bitmap
+                try {
+                    myImage = task.execute(snapshot.child("profileImageURL").value.toString()).get()!!
+                    navProfileImage?.setImageBitmap(myImage)
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
             }
             override fun onCancelled(error: DatabaseError) { }
         })

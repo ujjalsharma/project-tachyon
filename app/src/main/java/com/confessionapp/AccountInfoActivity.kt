@@ -1,22 +1,23 @@
 package com.confessionapp
 
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
-import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.activity_account_info.*
+import de.hdodenhof.circleimageview.CircleImageView
 
 class AccountInfoActivity : AppCompatActivity() {
     val mAuth = FirebaseAuth.getInstance()
     var accountEmailTextView: TextView? = null
     var accountNameTextView: TextView? = null
+    var profileImage: CircleImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,13 +28,26 @@ class AccountInfoActivity : AppCompatActivity() {
         accountEmailTextView = findViewById(R.id.accountEmailTextView)
         accountEmailTextView?.text = mAuth.currentUser?.email.toString()
         accountNameTextView = findViewById(R.id.accountNameTextView)
-        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("name").addListenerForSingleValueEvent(object :
-            ValueEventListener {
+        profileImage = findViewById(R.id.acc_info_profile_image)
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                accountNameTextView?.text = snapshot.value.toString()
+                accountNameTextView?.text = snapshot.child("name").value.toString()
+                val task = ImageDownloader()
+                val myImage: Bitmap
+                try {
+                    myImage = task.execute(snapshot.child("profileImageURL").value.toString()).get()!!
+                    profileImage?.setImageBitmap(myImage)
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
             }
             override fun onCancelled(error: DatabaseError) { }
         })
+
+
+
+
     }
 
     override fun onBackPressed() {

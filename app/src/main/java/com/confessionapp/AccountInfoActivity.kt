@@ -11,6 +11,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
 class AccountInfoActivity : AppCompatActivity() {
@@ -33,14 +34,7 @@ class AccountInfoActivity : AppCompatActivity() {
         FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 accountNameTextView?.text = snapshot.child("name").value.toString()
-                val task = ImageDownloader()
-                val myImage: Bitmap
-                try {
-                    myImage = task.execute(snapshot.child("profileImageURL").value.toString()).get()!!
-                    profileImage?.setImageBitmap(myImage)
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
+                Picasso.get().load(snapshot.child("profileImageURL").value.toString()).placeholder(R.drawable.profile).into(profileImage)
             }
             override fun onCancelled(error: DatabaseError) { }
         })

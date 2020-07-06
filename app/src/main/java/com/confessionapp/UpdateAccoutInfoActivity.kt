@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -29,7 +30,7 @@ class UpdateAccoutInfoActivity : AppCompatActivity() {
     val mAuth = FirebaseAuth.getInstance()
     var accountNameEditText: EditText? = null
     var profileImageView: ImageView? = null
-    var imageName: String? = null
+    var imageName = mAuth.currentUser?.uid.toString() + ".jpg"
     var profileImageImageChangedFlag = 0
 
 
@@ -44,12 +45,15 @@ class UpdateAccoutInfoActivity : AppCompatActivity() {
 
         accountNameEditText = findViewById(R.id.accountNameEditText)
 
-        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("name").addListenerForSingleValueEvent(object: ValueEventListener{
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                accountNameEditText?.setText(snapshot.value.toString())
+                accountNameEditText?.setText(snapshot.child("name").value.toString())
+                Picasso.get().load(snapshot.child("profileImageURL").value.toString()).placeholder(R.drawable.profile).into(profileImageView)
             }
             override fun onCancelled(error: DatabaseError) { }
         })
+
 
     }
 
@@ -61,7 +65,6 @@ class UpdateAccoutInfoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun uploadImageClicked(view: View){
-        imageName = UUID.randomUUID().toString() + ".jpg"
         if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1)
         } else {
@@ -123,9 +126,6 @@ class UpdateAccoutInfoActivity : AppCompatActivity() {
                     val downloadURL = it
 
                     FirebaseDatabase.getInstance().getReference().child("users")
-                        .child(mAuth.currentUser?.uid.toString()).child("profileImageName")
-                        .setValue(imageName!!)
-                    FirebaseDatabase.getInstance().getReference().child("users")
                         .child(mAuth.currentUser?.uid.toString()).child("profileImageURL")
                         .setValue(downloadURL.toString())
 
@@ -158,15 +158,7 @@ class UpdateAccoutInfoActivity : AppCompatActivity() {
 
     fun removePicClicked(view: View){
 
-        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("profileImageName").addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                FirebaseStorage.getInstance().getReference().child("profileImages").child(snapshot.value.toString()).delete()
-            }
-            override fun onCancelled(error: DatabaseError) { }
-        })
-
-
-        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("profileImageName").removeValue()
+        FirebaseStorage.getInstance().getReference().child("profileImages").child(mAuth.currentUser?.uid.toString() + ".jpg").delete()
         FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("profileImageURL").removeValue()
 
         val intent = Intent(this, AccountInfoActivity::class.java)

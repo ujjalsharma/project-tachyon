@@ -98,6 +98,8 @@ class WriteConfessionActivity : AppCompatActivity() {
             val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             val currentDate = sdf.format(Date())
 
+            val postID = UUID.randomUUID().toString()
+
 
             val confessionMap: Map<String, String> = mapOf(
                 "confession" to confession,
@@ -105,13 +107,13 @@ class WriteConfessionActivity : AppCompatActivity() {
                 "branch" to branch,
                 "gender" to gender,
                 "timestamp" to currentDate,
-                "postNumber" to postNumber.toString()
+                "postNumber" to postNumber.toString(),
+                "postID" to postID
             )
             FirebaseDatabase.getInstance().getReference().child("confessions").push()
                 .setValue(confessionMap).addOnSuccessListener {
 
                 Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show()
-
                 val intent = Intent(this, MainFeedActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)

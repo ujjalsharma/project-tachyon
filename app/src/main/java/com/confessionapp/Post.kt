@@ -12,6 +12,7 @@ class Post {
     var gender: String? = null
     var timestamp: String? = null
     var postNumber: String? = null
+    var postID: String? = null
 
     constructor(
         confession: String?,
@@ -19,7 +20,8 @@ class Post {
         branch: String?,
         gender: String?,
         timestamp: String?,
-        postNumber: String?
+        postNumber: String?,
+        postID: String?
     ) {
         this.confession = confession
         this.year =year
@@ -27,6 +29,7 @@ class Post {
         this.gender = gender
         this.timestamp = timestamp
         this.postNumber = postNumber
+        this.postID = postID
     }
 
     // make sure to have an empty constructor inside ur model class

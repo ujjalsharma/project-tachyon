@@ -68,6 +68,7 @@ class PostAdapter(
         holder.commentButton.setOnClickListener {
 
             val intent = Intent(mContext, CommentsViewActivity::class.java)
+            intent.putExtra("postID", postID)
             mContext.startActivity(intent)
 
 

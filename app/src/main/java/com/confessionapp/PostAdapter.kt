@@ -1,12 +1,14 @@
 package com.confessionapp
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.confessionapp.PostAdapter.MyViewHolder
 import com.google.firebase.auth.FirebaseAuth
@@ -36,7 +38,6 @@ class PostAdapter(
         holder.genderTextView.text = mData[position].gender
         holder.postNoTextView.text = "#" +mData[position].postNumber
 
-        var isPostLiked = false
 
         val postID = mData[position].postID
 
@@ -64,10 +65,13 @@ class PostAdapter(
             override fun onCancelled(error: DatabaseError) {}
         })
 
+        holder.commentButton.setOnClickListener {
+
+            val intent = Intent(mContext, CommentsViewActivity::class.java)
+            mContext.startActivity(intent)
 
 
-
-
+        }
 
 
     }
@@ -85,6 +89,7 @@ class PostAdapter(
         var genderTextView: TextView
         var postNoTextView: TextView
         var likeButton: Button
+        var commentButton: Button
 
         init {
             timeStampTextView = itemView.findViewById(R.id.timeStampTextView)
@@ -94,6 +99,7 @@ class PostAdapter(
             genderTextView = itemView.findViewById(R.id.genderTextView)
             postNoTextView = itemView.findViewById(R.id.postNumberTextView)
             likeButton = itemView.findViewById(R.id.likeButton)
+            commentButton = itemView.findViewById(R.id.commentButton)
 
         }
     }

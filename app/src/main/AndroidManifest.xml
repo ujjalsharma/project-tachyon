@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UpdateAccoutInfoActivity"></activity>
+        <activity android:name=".CommentsViewActivity"></activity>
+        <activity android:name=".UpdateAccoutInfoActivity" />
         <activity android:name=".AccountInfoActivity" />
         <activity android:name=".WriteConfessionActivity" />
         <activity

@@ -41,9 +41,33 @@ class CommentAdapter(
             override fun onCancelled(error: DatabaseError) {}
         })
 
-        holder.likeBtn.setOnClickListener {
-            Toast.makeText(mContext, timesAgo(mData[position].timestamp), Toast.LENGTH_SHORT).show()
-        }
+        FirebaseDatabase.getInstance().getReference().child("likes").child(mData[position].commentID!!).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.childrenCount==1L){
+                    holder.commentLikeTextView.text = snapshot.childrenCount.toString() + " Like"
+                } else {
+                    holder.commentLikeTextView.text = snapshot.childrenCount.toString() + " Likes"
+                }
+
+                if(snapshot.child(mAuth.currentUser?.uid.toString()).exists()){
+                    holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_favorite_red, 0, 0, 0)
+                    holder.likeBtn.text = "Liked"
+                    holder.likeBtn.setOnClickListener {
+                        FirebaseDatabase.getInstance().getReference().child("likes").child(mData[position].commentID!!).child(mAuth.currentUser?.uid.toString()).removeValue()
+                        holder.likeBtn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                        holder.likeBtn.text = "Like"
+                    }
+                } else {
+                    holder.likeBtn.setOnClickListener {
+                        FirebaseDatabase.getInstance().getReference().child("likes").child(mData[position].commentID!!).child(mAuth.currentUser?.uid.toString()).setValue(true)
+                        holder.likeBtn.text = "Liked"
+                    }
+                }
+
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
 
 
 
@@ -61,6 +85,8 @@ class CommentAdapter(
         var timestampTV: TextView
         var userImageView: CircleImageView
         var likeBtn: Button
+        var commentLikeTextView: TextView
+        var commentRepliesTextView: TextView
 
         init {
 
@@ -69,6 +95,8 @@ class CommentAdapter(
             timestampTV = itemView.findViewById(R.id.timestampCommentTv)
             userImageView = itemView.findViewById(R.id.comment_user_img)
             likeBtn = itemView.findViewById(R.id.commentLikeBtn)
+            commentLikeTextView = itemView.findViewById(R.id.commentLikesTextView)
+            commentRepliesTextView = itemView.findViewById(R.id.commentsRepliesTextView)
 
         }
     }

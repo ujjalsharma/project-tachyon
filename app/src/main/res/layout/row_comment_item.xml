@@ -62,11 +62,38 @@
                 android:layout_marginLeft="@dimen/fab_margin"
                 android:text="Comment"
                 android:textColor="#000000" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="@dimen/fab_margin" >
+
+                <TextView
+                    android:id="@+id/commentLikesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0 Likes"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/commentsRepliesTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="0 Replies"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayoutBtn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"
@@ -74,11 +101,13 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
         android:orientation="horizontal"
+        android:gravity="right"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        android:gravity="right">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+
 
         <Button
             android:id="@+id/commentLikeBtn"
@@ -109,6 +138,9 @@
             android:textAllCaps="false"
             android:textSize="10sp" />
     </LinearLayout>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

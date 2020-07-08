@@ -3,6 +3,7 @@ package com.confessionapp
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ class CommentsViewActivity : AppCompatActivity() {
     var commentRecyclerView: RecyclerView? = null
     var commentAdapter: CommentAdapter? = null
     var commentList: List<Comment>? = null
+    var commentTitle: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,8 @@ class CommentsViewActivity : AppCompatActivity() {
         commentEditText = findViewById(R.id.commentEditText)
 
         postID = intent.getStringExtra("postID")
+
+        commentTitle = findViewById(R.id.commentTitle)
 
         commentRecyclerView = findViewById(R.id.commentRV)
         commentRecyclerView?.setLayoutManager(LinearLayoutManager(applicationContext))
@@ -46,6 +50,9 @@ class CommentsViewActivity : AppCompatActivity() {
         FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 commentList = ArrayList()
+
+                commentTitle?.text = "Comments ("+dataSnapshot.childrenCount.toString()+")"
+
                 for (commentsnap in dataSnapshot.children) {
                     val comment = commentsnap.getValue(Comment::class.java)
                     (commentList as ArrayList<Comment>).add(comment!!)
@@ -83,7 +90,6 @@ class CommentsViewActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!).push()
                 .setValue(commentMap).addOnSuccessListener {
 
-                    Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show()
                     commentEditText?.setText("")
 
                 }.addOnFailureListener {

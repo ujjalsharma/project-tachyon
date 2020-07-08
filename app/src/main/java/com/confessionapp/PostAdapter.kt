@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.w3c.dom.Text
 
 
 class PostAdapter(
@@ -44,20 +45,23 @@ class PostAdapter(
         FirebaseDatabase.getInstance().getReference().child("likes").child(postID!!).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.childrenCount==1L){
-                    holder.likeButton.text = snapshot.childrenCount.toString() + " Like"
-                } else{
-                    holder.likeButton.text = snapshot.childrenCount.toString() + " Likes"
+                    holder.likesTextView.text = snapshot.childrenCount.toString() + " Like"
+                } else {
+                    holder.likesTextView.text = snapshot.childrenCount.toString() + " Likes"
                 }
 
                 if(snapshot.child(mAuth.currentUser?.uid.toString()).exists()){
                     holder.likeButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_favorite_red, 0, 0, 0)
+                    holder.likeButton.text = "Liked"
                     holder.likeButton.setOnClickListener {
                         FirebaseDatabase.getInstance().getReference().child("likes").child(postID!!).child(mAuth.currentUser?.uid.toString()).removeValue()
                         holder.likeButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_favorite_white, 0, 0, 0)
+                        holder.likeButton.text = "Like"
                     }
                 } else {
                     holder.likeButton.setOnClickListener {
                         FirebaseDatabase.getInstance().getReference().child("likes").child(postID!!).child(mAuth.currentUser?.uid.toString()).setValue(true)
+                        holder.likeButton.text = "Liked"
                     }
                 }
 
@@ -65,7 +69,23 @@ class PostAdapter(
             override fun onCancelled(error: DatabaseError) {}
         })
 
+        FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!).addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                holder.commentsTextView.text =  snapshot.childrenCount.toString() + " Comments"
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
         holder.commentButton.setOnClickListener {
+
+            val intent = Intent(mContext, CommentsViewActivity::class.java)
+            intent.putExtra("postID", postID)
+            mContext.startActivity(intent)
+
+
+        }
+
+        holder.commentsTextView.setOnClickListener {
 
             val intent = Intent(mContext, CommentsViewActivity::class.java)
             intent.putExtra("postID", postID)
@@ -91,6 +111,8 @@ class PostAdapter(
         var postNoTextView: TextView
         var likeButton: Button
         var commentButton: Button
+        var likesTextView: TextView
+        var commentsTextView: TextView
 
         init {
             timeStampTextView = itemView.findViewById(R.id.timeStampTextView)
@@ -101,6 +123,8 @@ class PostAdapter(
             postNoTextView = itemView.findViewById(R.id.postNumberTextView)
             likeButton = itemView.findViewById(R.id.likeButton)
             commentButton = itemView.findViewById(R.id.commentButton)
+            likesTextView = itemView.findViewById(R.id.likesTextView)
+            commentsTextView = itemView.findViewById(R.id.commentsTextView)
 
         }
     }

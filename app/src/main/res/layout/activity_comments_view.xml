@@ -7,7 +7,7 @@
     tools:context=".CommentsViewActivity">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/commentTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,12 +55,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/commentTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

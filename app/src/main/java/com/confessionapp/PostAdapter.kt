@@ -51,7 +51,7 @@ class PostAdapter(
                 }
 
                 if(snapshot.child(mAuth.currentUser?.uid.toString()).exists()){
-                    holder.likeButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_favorite_white, 0, 0, 0)
+                    holder.likeButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_baseline_favorite_red, 0, 0, 0)
                     holder.likeButton.text = "Liked"
                     holder.likeButton.setOnClickListener {
                         FirebaseDatabase.getInstance().getReference().child("likes").child(postID!!).child(mAuth.currentUser?.uid.toString()).removeValue()

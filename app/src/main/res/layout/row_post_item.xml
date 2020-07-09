@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/fab_margin"
-    android:elevation="8dp">
+    android:padding="@dimen/fab_margin"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:background="@android:color/white"
+    android:elevation="2dp">
 
     <TextView
         android:id="@+id/timeStampTextView"
@@ -109,7 +112,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="#009688"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

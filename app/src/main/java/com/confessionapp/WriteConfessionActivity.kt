@@ -90,43 +90,45 @@ class WriteConfessionActivity : AppCompatActivity() {
 
     fun postClicked(view: View){
 
-        try {
-            val gender: String = genderSpinner?.selectedItem.toString()
-            val year: String = yearSpinner?.selectedItem.toString()
-            val branch: String = branchSpinner?.selectedItem.toString()
-            val confession = confessionEditText?.text.toString()
-            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            val currentDate = sdf.format(Date())
+        val confession = confessionEditText?.text.toString()
 
-            val postID = UUID.randomUUID().toString()
+        if (confession.isNotBlank()) {
+
+            try {
+                val gender: String = genderSpinner?.selectedItem.toString()
+                val year: String = yearSpinner?.selectedItem.toString()
+                val branch: String = branchSpinner?.selectedItem.toString()
+                val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                val currentDate = sdf.format(Date())
+
+                val postID = UUID.randomUUID().toString()
 
 
-            val confessionMap: Map<String, String> = mapOf(
-                "confession" to confession,
-                "year" to year,
-                "branch" to branch,
-                "gender" to gender,
-                "timestamp" to currentDate,
-                "postNumber" to postNumber.toString(),
-                "postID" to postID
-            )
-            FirebaseDatabase.getInstance().getReference().child("confessions").push()
-                .setValue(confessionMap).addOnSuccessListener {
+                val confessionMap: Map<String, String> = mapOf(
+                    "confession" to confession,
+                    "year" to year,
+                    "branch" to branch,
+                    "gender" to gender,
+                    "timestamp" to currentDate,
+                    "postNumber" to postNumber.toString(),
+                    "postID" to postID
+                )
+                FirebaseDatabase.getInstance().getReference().child("confessions").push()
+                    .setValue(confessionMap).addOnSuccessListener {
 
-                Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainFeedActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
+                        Toast.makeText(this, "Done!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainFeedActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        startActivity(intent)
 
-            }.addOnFailureListener {
-                Toast.makeText(this, "Failed! Please try again!", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(this, "Failed! Please try again!", Toast.LENGTH_SHORT).show()
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(this, "Some Problem occured!", Toast.LENGTH_SHORT).show()
             }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Some Problem occured!", Toast.LENGTH_SHORT).show()
+
         }
-
-
-
 
 
     }

@@ -100,7 +100,12 @@ class UpdateAccoutInfoActivity : AppCompatActivity() {
 
     fun saveClicked(view: View){
 
-        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).child("name").setValue(accountNameEditText?.text.toString())
+        if (accountNameEditText?.text.toString().isNotBlank()) {
+
+            FirebaseDatabase.getInstance().getReference().child("users")
+                .child(mAuth.currentUser?.uid.toString()).child("name")
+                .setValue(accountNameEditText?.text.toString())
+        }
 
         if (profileImageImageChangedFlag==1) {
             // Get the data from an ImageView as bytes

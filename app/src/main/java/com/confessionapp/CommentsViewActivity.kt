@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -24,17 +25,18 @@ class CommentsViewActivity : AppCompatActivity() {
     var commentRecyclerView: RecyclerView? = null
     var commentAdapter: CommentAdapter? = null
     var commentList: List<Comment>? = null
-    var commentTitle: TextView? = null
+    var commentsToolbar: Toolbar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_comments_view)
+        commentsToolbar = findViewById(R.id.commentsToolbar)
+        setSupportActionBar(commentsToolbar)
 
         commentEditText = findViewById(R.id.commentEditText)
 
         postID = intent.getStringExtra("postID")
 
-        commentTitle = findViewById(R.id.commentTitle)
 
         commentRecyclerView = findViewById(R.id.commentRV)
         commentRecyclerView?.setLayoutManager(LinearLayoutManager(this))
@@ -52,7 +54,7 @@ class CommentsViewActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 commentList = ArrayList()
 
-                commentTitle?.text = "Comments ("+dataSnapshot.childrenCount.toString()+")"
+                commentsToolbar?.title = "Comments ("+dataSnapshot.childrenCount.toString()+")"
 
                 for (commentsnap in dataSnapshot.children) {
                     val comment = commentsnap.getValue(Comment::class.java)
@@ -72,36 +74,40 @@ class CommentsViewActivity : AppCompatActivity() {
     }
 
     fun commentSendClicked(view: View){
-        try {
 
-            val comment = commentEditText?.text.toString()
-            val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-            val currentDate = sdf.format(Date())
+        val comment = commentEditText?.text.toString()
+        if (comment.isNotBlank()) {
+            try {
 
-            val commentID = UUID.randomUUID().toString()
+                val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                val currentDate = sdf.format(Date())
+
+                val commentID = UUID.randomUUID().toString()
 
 
+                val commentMap: Map<String, String> = mapOf(
+                    "comment" to comment,
+                    "userID" to mAuth.currentUser?.uid.toString(),
+                    "timestamp" to currentDate,
+                    "commentID" to commentID
+                )
+                FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!)
+                    .push()
+                    .setValue(commentMap).addOnSuccessListener {
 
-            val commentMap: Map<String, String> = mapOf(
-                "comment" to comment,
-                "userID" to mAuth.currentUser?.uid.toString(),
-                "timestamp" to currentDate,
-                "commentID" to commentID
-            )
-            FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!).push()
-                .setValue(commentMap).addOnSuccessListener {
+                        commentEditText?.setText("")
 
-                    commentEditText?.setText("")
-
-                }.addOnFailureListener {
-                    Toast.makeText(this, "Failed! Please try again!", Toast.LENGTH_SHORT).show()
-                }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Some Problem occured!", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(this, "Failed! Please try again!", Toast.LENGTH_SHORT).show()
+                    }
+            } catch (e: Exception) {
+                Toast.makeText(this, "Some Problem occured!", Toast.LENGTH_SHORT).show()
+            }
         }
 
-
     }
+
+
 
 
 

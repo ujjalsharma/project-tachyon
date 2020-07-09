@@ -6,20 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".CommentsViewActivity">
 
-    <TextView
-        android:id="@+id/commentTitle"
-        android:layout_width="0dp"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/commentsAppBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="6dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:text="Comments"
-        android:textColor="#000000"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/commentsToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/white"
+            app:title="Comments"
+            app:titleTextColor="@android:color/black" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -37,15 +42,17 @@
             android:ems="10"
             android:gravity="start|top"
             android:hint="Enter your comment..."
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:textSize="14sp" />
 
-        <ImageButton
+        <Button
             android:id="@+id/commentSendButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:onClick="commentSendClicked"
-            android:src="@drawable/ic_baseline_send_24" />
+            android:drawableLeft = "@drawable/ic_baseline_send_24" />
 
 
     </LinearLayout>
@@ -55,11 +62,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="4dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/commentsAppBarLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,17 +22,19 @@ class LikesViewActivity : AppCompatActivity() {
     var likesRecyclerView: RecyclerView? = null
     var likesAdapter: LikesAdapter? = null
     var likesList: List<String>? = null
-    var likesTitle: TextView? = null
+    var likesToolbar: androidx.appcompat.widget.Toolbar? = null
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_likes_view)
+        likesToolbar = findViewById(R.id.likesToolbar)
+        setSupportActionBar(likesToolbar)
 
         postID = intent.getStringExtra("postID")
 
-        likesTitle = findViewById(R.id.likesTitle)
+
 
         likesRecyclerView = findViewById(R.id.likesRV)
         likesRecyclerView?.setLayoutManager(LinearLayoutManager(applicationContext))
@@ -47,7 +51,9 @@ class LikesViewActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 likesList = ArrayList()
 
-                likesTitle?.text = "Likes ("+snapshot.childrenCount.toString()+")"
+                likesToolbar?.title = "Likes ("+snapshot.childrenCount.toString()+")"
+
+
 
                 for (likessnap in snapshot.children) {
                     val like = likessnap.key.toString()

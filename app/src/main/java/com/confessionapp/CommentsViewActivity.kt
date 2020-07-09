@@ -14,6 +14,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +28,7 @@ class CommentsViewActivity : AppCompatActivity() {
     var commentAdapter: CommentAdapter? = null
     var commentList: List<Comment>? = null
     var commentsToolbar: Toolbar? = null
+    var commentProfileImage: CircleImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +40,21 @@ class CommentsViewActivity : AppCompatActivity() {
 
         postID = intent.getStringExtra("postID")
 
+        commentProfileImage = findViewById(R.id.comment_own_profile)
+
 
         commentRecyclerView = findViewById(R.id.commentRV)
         commentRecyclerView?.setLayoutManager(LinearLayoutManager(this))
         commentRecyclerView?.setHasFixedSize(true)
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString()).addValueEventListener(object : ValueEventListener{
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Picasso.get().load(snapshot.child("profileImageURL").value.toString()).placeholder(R.drawable.profile).into(commentProfileImage)
+            }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
 
 
 

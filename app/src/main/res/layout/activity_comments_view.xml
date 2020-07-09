@@ -30,18 +30,26 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/comment_own_profile"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/profile" />
+
+
         <EditText
             android:id="@+id/commentEditText"
-            android:layout_width="344dp"
+            android:background="@drawable/edit_text_border"
+            android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Enter your comment..."
+            android:paddingLeft="10dp"
+            android:hint="Add a comment..."
             android:inputType="textMultiLine"
             android:textSize="14sp" />
 
@@ -49,7 +57,7 @@
             android:id="@+id/commentSendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"
+            android:layout_marginLeft="1dp"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:onClick="commentSendClicked"
             android:drawableLeft = "@drawable/ic_baseline_send_24" />

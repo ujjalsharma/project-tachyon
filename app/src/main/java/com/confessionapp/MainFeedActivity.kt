@@ -115,6 +115,4 @@ class MainFeedActivity : AppCompatActivity() {
     }
 
 
-
-
 }

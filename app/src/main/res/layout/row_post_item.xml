@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/ic_baseline_favorite_white"
+            android:drawableLeft="@drawable/ic_baseline_favorite_border_24"
             android:text="Like"
             android:textAllCaps="false"
             android:textSize="10sp" />

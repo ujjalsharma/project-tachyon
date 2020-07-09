@@ -94,6 +94,13 @@ class PostAdapter(
 
         }
 
+        holder.likesTextView.setOnClickListener {
+            val intent = Intent(mContext, LikesViewActivity::class.java)
+            intent.putExtra("postID", postID)
+            mContext.startActivity(intent)
+
+        }
+
 
     }
 

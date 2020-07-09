@@ -37,8 +37,9 @@ class CommentsViewActivity : AppCompatActivity() {
         commentTitle = findViewById(R.id.commentTitle)
 
         commentRecyclerView = findViewById(R.id.commentRV)
-        commentRecyclerView?.setLayoutManager(LinearLayoutManager(applicationContext))
+        commentRecyclerView?.setLayoutManager(LinearLayoutManager(this))
         commentRecyclerView?.setHasFixedSize(true)
+
 
 
     }
@@ -58,7 +59,7 @@ class CommentsViewActivity : AppCompatActivity() {
                     (commentList as ArrayList<Comment>).add(comment!!)
                 }
                 commentList = (commentList as ArrayList<Comment>).reversed().toMutableList()
-                commentAdapter = CommentAdapter(applicationContext,
+                commentAdapter = CommentAdapter(this@CommentsViewActivity,
                     commentList as MutableList<Comment>
                 )
                 commentRecyclerView!!.adapter = commentAdapter

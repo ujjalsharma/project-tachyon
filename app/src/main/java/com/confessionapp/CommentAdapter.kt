@@ -1,12 +1,14 @@
 package com.confessionapp
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -67,6 +69,15 @@ class CommentAdapter(
             }
             override fun onCancelled(error: DatabaseError) {}
         })
+
+
+        holder.commentLikeTextView.setOnClickListener{
+
+            val intent = Intent(mContext, LikesViewActivity::class.java)
+            intent.putExtra("postID", mData[position].commentID!!)
+            mContext.startActivity(intent)
+
+        }
 
 
 

@@ -24,7 +24,9 @@ class TimeShow {
             if (second < 60) {
                 if (second == 1L){
                     convTime = "$second second $suffix"
-                } else{
+                }else if (second == 0L){
+                    convTime = "now"
+                } else {
                     convTime = "$second seconds $suffix"
                 }
 

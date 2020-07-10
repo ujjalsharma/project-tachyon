@@ -143,7 +143,10 @@ class WriteConfessionActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-        finishAffinity()
+        val intent = Intent(this, MainFeedActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+
     }
 
 

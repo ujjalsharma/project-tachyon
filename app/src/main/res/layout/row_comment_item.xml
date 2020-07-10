@@ -75,14 +75,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="0 Likes"
+                    android:layout_marginRight="4dp"
                     android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/commentsRepliesTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
                     android:layout_weight="1"
                     android:text="0 Replies"
                     android:textSize="10sp" />

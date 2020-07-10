@@ -46,6 +46,8 @@ class PostAdapter(
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.childrenCount==1L){
                     holder.likesTextView.text = snapshot.childrenCount.toString() + " Like"
+                } else if (snapshot.childrenCount==0L){
+                    holder.likesTextView.text = ""
                 } else {
                     holder.likesTextView.text = snapshot.childrenCount.toString() + " Likes"
                 }
@@ -71,7 +73,15 @@ class PostAdapter(
 
         FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                holder.commentsTextView.text =  snapshot.childrenCount.toString() + " Comments"
+
+                if (snapshot.childrenCount==1L){
+                    holder.commentsTextView.text =  snapshot.childrenCount.toString() + " Comment"
+                } else if (snapshot.childrenCount==0L){
+                    holder.commentsTextView.text = ""
+                } else {
+                    holder.commentsTextView.text =  snapshot.childrenCount.toString() + " Comments"
+                }
+
             }
             override fun onCancelled(error: DatabaseError) {}
         })

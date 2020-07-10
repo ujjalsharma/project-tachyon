@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
-        android:background="@color/colorAccent"
+        android:background="#036B9A"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:text="#PostNumber"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -57,7 +57,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="Post"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/postNumberTextView" />
@@ -70,7 +70,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:text="Year"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="8dp"
             android:text="Branch"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +99,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:text="Gender"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -112,7 +112,6 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#009688"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,46 +119,61 @@
 
         <Button
             android:id="@+id/likeButton"
-            style="@android:style/Widget.Material.Light.Button.Borderless"
+            style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawableLeft="@drawable/ic_baseline_favorite_border_24"
+            android:gravity="center|fill_horizontal"
             android:text="Like"
             android:textAllCaps="false"
             android:textSize="10sp" />
 
         <Button
             android:id="@+id/commentButton"
-            style="@android:style/Widget.Material.Light.Button.Borderless"
+            style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_comment_24"
+            android:gravity="center|fill_horizontal"
             android:text="Comment"
             android:textAllCaps="false"
-            android:textSize="10sp"
-            app:icon="@drawable/ic_baseline_comment_24" />
+            android:textSize="10sp" />
 
         <Button
             android:id="@+id/messageButton"
-            style="@android:style/Widget.Material.Light.Button.Borderless"
+            style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_baseline_how_to_reg_24"
+            android:gravity="center|fill_horizontal"
             android:text="Message"
             android:textAllCaps="false"
-            android:textSize="10sp"
-            app:icon="@drawable/ic_baseline_how_to_reg_24" />
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/reportButton"
+            style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Report"
+            android:gravity="right|center"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
+
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right"
+        android:layout_marginTop="3dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
@@ -168,7 +182,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="0 Likes"
             android:textSize="10sp" />
 
         <TextView
@@ -177,7 +190,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="0 Comments"
             android:textSize="10sp" />
     </LinearLayout>
 

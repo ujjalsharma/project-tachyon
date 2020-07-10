@@ -47,6 +47,8 @@ class CommentAdapter(
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.childrenCount==1L){
                     holder.commentLikeTextView.text = snapshot.childrenCount.toString() + " Like"
+                }else if(snapshot.childrenCount==0L){
+                    holder.commentLikeTextView.text = ""
                 } else {
                     holder.commentLikeTextView.text = snapshot.childrenCount.toString() + " Likes"
                 }

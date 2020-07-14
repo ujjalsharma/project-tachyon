@@ -96,7 +96,6 @@ class PostAdapter(
         }
 
         holder.commentsTextView.setOnClickListener {
-
             val intent = Intent(mContext, CommentsViewActivity::class.java)
             intent.putExtra("postID", postID)
             mContext.startActivity(intent)
@@ -104,8 +103,17 @@ class PostAdapter(
 
         }
 
+
+
         holder.likesTextView.setOnClickListener {
             val intent = Intent(mContext, LikesViewActivity::class.java)
+            intent.putExtra("postID", postID)
+            mContext.startActivity(intent)
+
+        }
+
+        holder.messageButton.setOnClickListener {
+            val intent = Intent(mContext, ChatActivity::class.java)
             intent.putExtra("postID", postID)
             mContext.startActivity(intent)
 
@@ -130,6 +138,7 @@ class PostAdapter(
         var commentButton: Button
         var likesTextView: TextView
         var commentsTextView: TextView
+        var messageButton: Button
 
         init {
             timeStampTextView = itemView.findViewById(R.id.timeStampTextView)
@@ -142,8 +151,11 @@ class PostAdapter(
             commentButton = itemView.findViewById(R.id.commentButton)
             likesTextView = itemView.findViewById(R.id.likesTextView)
             commentsTextView = itemView.findViewById(R.id.commentsTextView)
+            messageButton = itemView.findViewById(R.id.messageButton)
+
 
         }
+
     }
 
     fun timesAgo(time: String?): String? {

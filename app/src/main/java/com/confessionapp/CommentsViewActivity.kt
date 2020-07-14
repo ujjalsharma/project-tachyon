@@ -57,7 +57,6 @@ class CommentsViewActivity : AppCompatActivity() {
         })
 
 
-
     }
 
     override fun onStart() {
@@ -79,6 +78,7 @@ class CommentsViewActivity : AppCompatActivity() {
                     commentList as MutableList<Comment>
                 )
                 commentRecyclerView!!.adapter = commentAdapter
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

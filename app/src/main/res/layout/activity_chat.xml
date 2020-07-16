@@ -65,7 +65,7 @@
         <ImageButton
             android:id="@+id/pictureSendButton"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@null"
             style="@style/Widget.AppCompat.Button.Small"
             android:src = "@drawable/ic_baseline_photo_camera_24" />
@@ -74,8 +74,9 @@
         <EditText
             android:id="@+id/messageEditText"
             android:background="@drawable/edit_text_border"
-            android:layout_width="280dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_marginLeft="8dp"
             android:paddingLeft="10dp"
             android:hint="Type your message..."

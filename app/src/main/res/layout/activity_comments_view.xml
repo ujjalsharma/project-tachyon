@@ -45,22 +45,22 @@
         <EditText
             android:id="@+id/commentEditText"
             android:background="@drawable/edit_text_border"
-            android:layout_width="280dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:layout_marginLeft="8dp"
             android:paddingLeft="10dp"
             android:hint="Add a comment..."
             android:inputType="textMultiLine"
             android:textSize="14sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/commentSendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="1dp"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:onClick="commentSendClicked"
-            android:drawableLeft = "@drawable/ic_baseline_send_24" />
+            android:background="@null"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:src = "@drawable/ic_baseline_send_bigger" />
 
 
     </LinearLayout>

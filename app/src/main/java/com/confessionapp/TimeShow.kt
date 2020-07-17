@@ -53,11 +53,8 @@ class TimeShow {
                 }
 
             } else if (day >= 7) {
-                val curFormater =
-                    SimpleDateFormat("dd MMMM yyyy")
-                val dateObj = curFormater.parse(dataDate)
-
-                val newDateStr = curFormater.format(dateObj)
+                val curFormater = SimpleDateFormat("dd MMMM yyyy")
+                val newDateStr = curFormater.format(pasTime)
                 convTime = newDateStr
             }
         } catch (e: ParseException) {

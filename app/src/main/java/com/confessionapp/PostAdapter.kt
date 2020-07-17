@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class PostAdapter(
@@ -41,6 +43,7 @@ class PostAdapter(
 
 
         val postID = mData[position].postID
+        val otherID = mData[position].userID
 
         FirebaseDatabase.getInstance().getReference().child("likes").child(postID!!).addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -113,9 +116,31 @@ class PostAdapter(
         }
 
         holder.messageButton.setOnClickListener {
-            val intent = Intent(mContext, ChatActivity::class.java)
-            intent.putExtra("postID", postID)
-            mContext.startActivity(intent)
+
+            if (otherID==mAuth.currentUser?.uid.toString()){
+                Toast.makeText(mContext, "You wrote this!!", Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(mContext, ChatActivity::class.java)
+                val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                val currentDate = sdf.format(Date())
+                val chatID = "chat" + UUID.randomUUID().toString() + currentDate
+
+                FirebaseDatabase.getInstance().getReference().child("users")
+                    .child(mAuth.currentUser?.uid.toString()).child("chats").child(chatID)
+                    .child("chatID").setValue(chatID)
+                FirebaseDatabase.getInstance().getReference().child("users")
+                    .child(mAuth.currentUser?.uid.toString()).child("chats").child(chatID)
+                    .child("userID").setValue(otherID)
+                FirebaseDatabase.getInstance().getReference().child("users").child(otherID!!)
+                    .child("chats").child(chatID).child("chatID").setValue(chatID)
+                FirebaseDatabase.getInstance().getReference().child("users").child(otherID!!)
+                    .child("chats").child(chatID).child("userID")
+                    .setValue(mAuth.currentUser?.uid.toString())
+
+                intent.putExtra("chatID", chatID)
+                intent.putExtra("userID", otherID)
+                mContext.startActivity(intent)
+            }
 
         }
 

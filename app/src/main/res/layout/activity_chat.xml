@@ -38,12 +38,13 @@
                 android:textColor="@android:color/white" />
 
             <TextView
+                android:id="@+id/anonomoysTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:text=". Your are anonomous"
-                android:textSize="10sp"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textSize="10sp" />
 
 
 
@@ -85,11 +86,12 @@
 
         <ImageButton
             android:id="@+id/messageSendButton"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:src = "@drawable/ic_baseline_send_bigger" />
+            android:onClick="sendMessageClicked"
+            android:src="@drawable/ic_baseline_send_bigger" />
 
 
     </LinearLayout>
@@ -98,7 +100,6 @@
         android:id="@+id/chatMsgRV"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#EFEDED"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

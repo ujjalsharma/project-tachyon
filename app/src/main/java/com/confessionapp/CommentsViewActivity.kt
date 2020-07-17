@@ -90,13 +90,15 @@ class CommentsViewActivity : AppCompatActivity() {
     fun commentSendClicked(view: View){
 
         val comment = commentEditText?.text.toString()
+        commentEditText?.setText("")
+
         if (comment.isNotBlank()) {
             try {
 
                 val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                 val currentDate = sdf.format(Date())
 
-                val commentID = UUID.randomUUID().toString()
+                val commentID = "comment"+ UUID.randomUUID().toString() + currentDate
 
 
                 val commentMap: Map<String, String> = mapOf(
@@ -106,10 +108,8 @@ class CommentsViewActivity : AppCompatActivity() {
                     "commentID" to commentID
                 )
                 FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!)
-                    .push()
+                    .child(commentID)
                     .setValue(commentMap).addOnSuccessListener {
-
-                        commentEditText?.setText("")
 
                     }.addOnFailureListener {
                         Toast.makeText(this, "Failed! Please try again!", Toast.LENGTH_SHORT).show()

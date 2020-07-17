@@ -56,11 +56,12 @@
 
         <ImageButton
             android:id="@+id/commentSendButton"
+            style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@null"
-            style="@style/Widget.AppCompat.Button.Small"
-            android:src = "@drawable/ic_baseline_send_bigger" />
+            android:onClick="commentSendClicked"
+            android:src="@drawable/ic_baseline_send_bigger" />
 
 
     </LinearLayout>

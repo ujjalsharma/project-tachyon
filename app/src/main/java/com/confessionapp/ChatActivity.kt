@@ -59,7 +59,6 @@ class ChatActivity : AppCompatActivity() {
         FirebaseDatabase.getInstance().getReference().child("chats").child(chatID!!).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                anonmouysTV?.text = dataSnapshot.childrenCount.toString()
 
                 messageList = java.util.ArrayList()
 

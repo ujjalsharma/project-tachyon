@@ -1,22 +1,17 @@
 package com.confessionapp
 
 import android.content.Context
-import android.content.Intent
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
+import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
+
 
 class MessageAdapter(
     var mContext: Context,
@@ -36,6 +31,17 @@ class MessageAdapter(
         holder.messageItemTV.text = mData[position].message
 
 
+        if (mData[position].userID==mAuth.currentUser?.uid.toString()){
+            holder.messageRL.gravity = Gravity.RIGHT
+
+            holder.messageRL.setPadding(80, 20,20,20)
+
+            holder.messageItemLL.background = mContext.resources.getDrawable(R.drawable.box_msg_you)
+        } else {
+            holder.messageRL.setPadding(20, 20,80,20)
+        }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -47,11 +53,14 @@ class MessageAdapter(
 
         var timestampTV: TextView
         var messageItemTV: TextView
+        var messageRL: RelativeLayout
+        var messageItemLL: LinearLayout
 
         init {
-
+            messageRL = itemView.findViewById(R.id.messageCLayout)
             messageItemTV = itemView.findViewById(R.id.messageItemTV)
             timestampTV = itemView.findViewById(R.id.msgTimeTV)
+            messageItemLL = itemView.findViewById(R.id.messageItem)
 
         }
     }

@@ -56,7 +56,7 @@ class ChatActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        FirebaseDatabase.getInstance().getReference().child("chats").child(chatID!!).addValueEventListener(object : ValueEventListener {
+        FirebaseDatabase.getInstance().getReference().child("chats").child(chatID!!).orderByChild("timestamp").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
 

@@ -40,8 +40,7 @@ class HomeFragment : Fragment() {
         postRecyclerView = fragmentView.findViewById(R.id.postRV)
         postRecyclerView?.setLayoutManager(LinearLayoutManager(activity))
         postRecyclerView?.setHasFixedSize(true)
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        databaseReference = firebaseDatabase!!.getReference().child("confessions")
+
         return fragmentView
     }
 
@@ -49,7 +48,7 @@ class HomeFragment : Fragment() {
         super.onStart()
 
         // Get List Posts from the database
-        databaseReference!!.addValueEventListener(object : ValueEventListener {
+        FirebaseDatabase.getInstance().getReference().child("confessions").orderByChild("timestamp").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 postList = ArrayList()
                 for (postsnap in dataSnapshot.children) {

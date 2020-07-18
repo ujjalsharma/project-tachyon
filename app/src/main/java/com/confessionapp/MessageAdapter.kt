@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MessageAdapter(
@@ -26,7 +28,7 @@ class MessageAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.timestampTV.text = timesAgo(mData[position].timestamp)
+        holder.timestampTV.text = messagetime(mData[position].timestamp)
 
         holder.messageItemTV.text = mData[position].message
 
@@ -65,10 +67,15 @@ class MessageAdapter(
         }
     }
 
-    fun timesAgo(time: String?): String? {
-        val timeAgo2 = TimeShow()
-        val MyFinalValue = timeAgo2.covertTimeToText(time)
-        return MyFinalValue
+    fun messagetime(time: String?): String? {
+
+        val dateFormat =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val pasTime = dateFormat.parse(time)
+
+        val curFormater = SimpleDateFormat("HH:mm")
+        val newDateStr = curFormater.format(pasTime)
+        return newDateStr
     }
 
 

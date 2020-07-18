@@ -63,7 +63,7 @@ class CommentsViewActivity : AppCompatActivity() {
         super.onStart()
 
         // Get List Posts from the database
-        FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!).addValueEventListener(object : ValueEventListener {
+        FirebaseDatabase.getInstance().getReference().child("comments").child(postID!!).orderByChild("timestamp").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 commentList = ArrayList()
 

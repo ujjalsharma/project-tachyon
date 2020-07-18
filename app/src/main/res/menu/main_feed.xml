@@ -16,6 +16,11 @@
         android:icon="@drawable/ic_baseline_create_24"
         android:title="Write Confession"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/chatsList"
+        android:icon="@drawable/ic_baseline_chat_bubble_24"
+        android:title="Chat List"
+        app:showAsAction="ifRoom"/>
 
 
 </menu>

@@ -93,6 +93,9 @@ class MainFeedActivity : AppCompatActivity() {
             startActivity(intent)
         } else if (item?.itemId == R.id.action_settings) {
             Toast.makeText(this, "In progress!", Toast.LENGTH_SHORT).show()
+        } else if (item?.itemId == R.id.chatsList) {
+            val intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
         }
 
 

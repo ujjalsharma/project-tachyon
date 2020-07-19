@@ -34,15 +34,41 @@ class ChatItemAdapter(
         val chatID = mData[position]
         var userID: String? = null
 
-        FirebaseDatabase.getInstance().getReference().child("users").child("chats").child(chatID).child("userID").addValueEventListener(object : ValueEventListener{
+        FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString())
+            .child("chats").child(chatID).child("userID")
+            .addValueEventListener(object : ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 userID = snapshot.value.toString()
+
+                FirebaseDatabase.getInstance().getReference().child("users").child(userID!!)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {}
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+
+                            if (snapshot.child("chats").child(chatID).child("anonymous").value==true){
+                                holder.usernamaeChatItemTV.text = snapshot.child("name").value.toString()
+                                Picasso.get().load(snapshot.child("profileImageURL").value.toString()).placeholder(R.drawable.profile).into(holder.profileChatItemImage)
+                            }
+                        }
+
+                    })
+
+
             }
 
             override fun onCancelled(error: DatabaseError) {}
 
         })
+
+
+
+
+
+
+
+
 
         holder.itemView.setOnClickListener {
 

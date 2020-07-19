@@ -1,8 +1,10 @@
 package com.confessionapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -15,6 +17,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -29,8 +33,10 @@ class ChatActivity : AppCompatActivity() {
     var messageAdapter: MessageAdapter? = null
     var messageList: List<Message>? = null
     var messageEditText: EditText? = null
-    var anonmouysTV: TextView? = null
+    var anonymousTV: TextView? = null
+    var otherNameTV: TextView? = null
     var chatID: String? = null
+    var chat_profile_image: CircleImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +49,40 @@ class ChatActivity : AppCompatActivity() {
         ownID = mAuth.currentUser?.uid.toString()
 
         messageEditText = findViewById(R.id.messageEditText)
-        anonmouysTV = findViewById(R.id.anonomoysTV)
+        anonymousTV = findViewById(R.id.anonymousTV)
+        otherNameTV = findViewById(R.id.otherUserTextView)
+        chat_profile_image = findViewById(R.id.chat_profile_image)
 
         messagesRecyclerView = findViewById(R.id.chatMsgRV)
         messagesRecyclerView?.setLayoutManager(LinearLayoutManager(this))
         messagesRecyclerView?.setHasFixedSize(true)
+
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(ownID!!)
+            .child("chats").child(chatID!!).addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {}
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.child("anonymous").value==true){
+                        anonymousTV?.text = ""
+                    }
+                }
+
+            })
+
+        FirebaseDatabase.getInstance().getReference().child("users").child(otherID!!)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {}
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    if (snapshot.child("chats").child(chatID!!).child("anonymous").value==true){
+                        otherNameTV?.text = snapshot.child("name").value.toString()
+                        Picasso.get().load(snapshot.child("profileImageURL").value.toString()).placeholder(R.drawable.profile).into(chat_profile_image)
+                    }
+                }
+
+            })
 
 
 
@@ -76,6 +111,8 @@ class ChatActivity : AppCompatActivity() {
 
             override fun onCancelled(databaseError: DatabaseError) {}
         })
+
+
 
 
     }
@@ -117,6 +154,20 @@ class ChatActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.chat_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        if (item?.itemId == R.id.show){
+            FirebaseDatabase.getInstance().getReference().child("users")
+                .child(ownID!!).child("chats").child(chatID!!)
+                .child("anonymous").setValue(true)
+
+            anonymousTV?.text = ""
+
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 

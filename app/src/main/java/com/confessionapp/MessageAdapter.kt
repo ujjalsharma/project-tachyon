@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.view.marginLeft
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,6 +42,9 @@ class MessageAdapter(
             holder.messageItemLL.background = mContext.resources.getDrawable(R.drawable.box_msg_you)
         } else {
             holder.messageRL.setPadding(20, 20,80,20)
+            FirebaseDatabase.getInstance().getReference().child("chats")
+                .child(mData[position].chatID!!).child(mData[position].messageID!!)
+                .child("read").setValue(true)
         }
 
 

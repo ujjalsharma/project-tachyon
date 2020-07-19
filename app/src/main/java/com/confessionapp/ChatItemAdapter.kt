@@ -2,6 +2,7 @@ package com.confessionapp
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ class ChatItemAdapter(
 
         val chatID = mData[position]
         var userID: String? = null
+        val ownID = mAuth.currentUser?.uid.toString()
 
         FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString())
             .child("chats").child(chatID).child("userID")
@@ -51,6 +53,54 @@ class ChatItemAdapter(
                                 holder.usernamaeChatItemTV.text = snapshot.child("name").value.toString()
                                 Picasso.get().load(snapshot.child("profileImageURL").value.toString()).placeholder(R.drawable.profile).into(holder.profileChatItemImage)
                             }
+                        }
+
+                    })
+
+                FirebaseDatabase.getInstance().getReference().child("chats").child(chatID)
+                    .orderByChild("timestamp").limitToLast(1)
+                    .addValueEventListener(object : ValueEventListener{
+                        override fun onCancelled(error: DatabaseError) {}
+
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (msnapshot in dataSnapshot.children){
+                                holder.timeChatItemTV.text = timesAgo(msnapshot.child("timestamp").value.toString())
+                                val message =  msnapshot.child("message").value.toString()
+                                val charCount = message.length
+
+                                if (msnapshot.child("userID").value.toString()==ownID){
+                                    if (charCount>23){
+                                        holder.messageChatItemTV.text ="~ " + message.substring(0, 23) + "..."
+                                    } else {
+                                        holder.messageChatItemTV.text ="~ " + message
+                                    }
+                                } else {
+
+                                    if (msnapshot.child("read").value==true){
+                                        if (charCount>23){
+                                            holder.messageChatItemTV.text = message.substring(0, 23) + "..."
+                                        } else {
+                                            holder.messageChatItemTV.text = message
+                                        }
+                                    } else {
+                                        holder.messageChatItemTV.setTypeface(holder.messageChatItemTV.getTypeface(), Typeface.BOLD)
+                                        if (charCount>23){
+                                            holder.messageChatItemTV.text = message.substring(0, 23) + "..."
+                                        } else {
+                                            holder.messageChatItemTV.text = message
+                                        }
+                                    }
+
+                                    if (charCount>23){
+                                        holder.messageChatItemTV.text = message.substring(0, 23) + "..."
+                                    } else {
+                                        holder.messageChatItemTV.text = message
+                                    }
+                                }
+
+
+                            }
+
                         }
 
                     })
@@ -88,10 +138,14 @@ class ChatItemAdapter(
     inner class MyViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         var usernamaeChatItemTV: TextView
+        var timeChatItemTV: TextView
+        var messageChatItemTV: TextView
         var profileChatItemImage: CircleImageView
 
         init {
             usernamaeChatItemTV = itemView.findViewById(R.id.chat_item_name)
+            messageChatItemTV = itemView.findViewById(R.id.chat_message_item)
+            timeChatItemTV = itemView.findViewById(R.id.chat_message_item_time)
             profileChatItemImage = itemView.findViewById(R.id.chat_item_profile_image)
 
         }

@@ -12,8 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/box_msg_from"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:minWidth="130dp"
+        android:padding="8dp"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/messageItemTV"
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
             android:text="time"
             android:textSize="10sp" />
 

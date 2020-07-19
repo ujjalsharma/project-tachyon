@@ -2,6 +2,7 @@ package com.confessionapp
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
@@ -105,6 +106,30 @@ class ChatItemAdapter(
 
                     })
 
+                FirebaseDatabase.getInstance().getReference().child("chats").child(chatID)
+                    .addValueEventListener(object : ValueEventListener {
+                        override fun onCancelled(error: DatabaseError) {}
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+
+                            var unreadCount = 0
+
+                            for (snap in snapshot.children){
+                                if (snap.child("userID").value ==userID && !snap.child("read").exists()){
+                                    unreadCount += 1
+                                }
+                            }
+
+                            if (unreadCount>0){
+                                holder.unreadCountChatItemTV.setVisibility(View.VISIBLE);
+                                holder.unreadCountChatItemTV.text = "$unreadCount"
+                                holder.timeChatItemTV.setTextColor(Color.parseColor("#03A9F4"))
+                            }
+
+                        }
+
+                    })
+
 
             }
 
@@ -140,11 +165,13 @@ class ChatItemAdapter(
         var usernamaeChatItemTV: TextView
         var timeChatItemTV: TextView
         var messageChatItemTV: TextView
+        var unreadCountChatItemTV: TextView
         var profileChatItemImage: CircleImageView
 
         init {
             usernamaeChatItemTV = itemView.findViewById(R.id.chat_item_name)
             messageChatItemTV = itemView.findViewById(R.id.chat_message_item)
+            unreadCountChatItemTV = itemView.findViewById(R.id.unread_tv)
             timeChatItemTV = itemView.findViewById(R.id.chat_message_item_time)
             profileChatItemImage = itemView.findViewById(R.id.chat_item_profile_image)
 

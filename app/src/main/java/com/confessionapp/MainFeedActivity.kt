@@ -24,6 +24,8 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -36,12 +38,12 @@ class MainFeedActivity : AppCompatActivity() {
     var navProfileImage: CircleImageView? = null
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_feed)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -62,6 +64,7 @@ class MainFeedActivity : AppCompatActivity() {
         userEmailTextView?.text = mAuth.currentUser?.email.toString()
         userNameTextView = headerView.findViewById(R.id.usernameTextView)
         navProfileImage = headerView.findViewById(R.id.nav_profile_image)
+
 
 
 

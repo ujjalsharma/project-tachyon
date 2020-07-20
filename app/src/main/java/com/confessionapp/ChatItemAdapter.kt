@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +18,12 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.text.SimpleDateFormat
 
 
 class ChatItemAdapter(
     var mContext: Context,
-    var mData: List<String>
+    var mData: List<ChatItem>
 ) : RecyclerView.Adapter<ChatItemAdapter.MyViewHolder>() {
 
     val mAuth = FirebaseAuth.getInstance()
@@ -33,12 +35,12 @@ class ChatItemAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        val chatID = mData[position]
+        val chatID = mData[position].chatID
         var userID: String? = null
         val ownID = mAuth.currentUser?.uid.toString()
 
         FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.currentUser?.uid.toString())
-            .child("chats").child(chatID).child("userID")
+            .child("chats").child(chatID!!).child("userID")
             .addValueEventListener(object : ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -65,7 +67,7 @@ class ChatItemAdapter(
 
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             for (msnapshot in dataSnapshot.children){
-                                holder.timeChatItemTV.text = timesAgo(msnapshot.child("timestamp").value.toString())
+                                holder.timeChatItemTV.text = messagedate(msnapshot.child("timestamp").value.toString())
                                 val message =  msnapshot.child("message").value.toString()
                                 val charCount = message.length
 
@@ -178,11 +180,48 @@ class ChatItemAdapter(
         }
     }
 
-    fun timesAgo(time: String?): String? {
-        val timeAgo2 = TimeShow()
-        val MyFinalValue = timeAgo2.covertTimeToText(time)
-        return MyFinalValue
+    fun messagetime(time: String?): String? {
+
+        val dateFormat =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val pasTime = dateFormat.parse(time)
+
+        val curFormater = SimpleDateFormat("HH:mm")
+        val newDateStr = curFormater.format(pasTime)
+        return newDateStr
     }
+
+    fun messagedate(time: String?): String? {
+
+        var covTimess = ""
+
+
+        val dateFormat =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val pasTime = dateFormat.parse(time)
+
+        val curFormater = SimpleDateFormat("dd MMMM yyyy")
+        val newDateStr = curFormater.format(pasTime)
+
+        if (isYesterday(pasTime.time)){
+            covTimess = "Yesterday"
+        } else if (isToday(pasTime.time)){
+            covTimess = messagetime(time)!!
+        } else {
+            covTimess = newDateStr
+        }
+
+        return covTimess
+    }
+
+    fun isYesterday(whenInMillis: Long): Boolean {
+        return DateUtils.isToday(whenInMillis + DateUtils.DAY_IN_MILLIS)
+    }
+
+    fun isToday(whenInMillis: Long): Boolean {
+        return DateUtils.isToday(whenInMillis)
+    }
+
 
 
 }

@@ -53,9 +53,11 @@ class ChatActivity : AppCompatActivity() {
         otherNameTV = findViewById(R.id.otherUserTextView)
         chat_profile_image = findViewById(R.id.chat_profile_image)
 
+        val layoutManager = LinearLayoutManager(this)
         messagesRecyclerView = findViewById(R.id.chatMsgRV)
-        messagesRecyclerView?.setLayoutManager(LinearLayoutManager(this))
+        messagesRecyclerView?.setLayoutManager(layoutManager)
         messagesRecyclerView?.setHasFixedSize(true)
+        messagesRecyclerView!!.smoothScrollToPosition(messagesRecyclerView!!.getBottom())
 
 
         FirebaseDatabase.getInstance().getReference().child("users").child(ownID!!)
@@ -107,6 +109,7 @@ class ChatActivity : AppCompatActivity() {
 
 
                 messagesRecyclerView!!.adapter = messageAdapter
+                messagesRecyclerView!!.scrollToPosition(messagesRecyclerView!!.adapter!!.itemCount-1)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {}

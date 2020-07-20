@@ -1,10 +1,12 @@
 package com.confessionapp
 
 import android.content.Context
+import android.text.format.DateUtils
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class MessageAdapter(
@@ -32,6 +35,20 @@ class MessageAdapter(
         holder.timestampTV.text = messagetime(mData[position].timestamp)
 
         holder.messageItemTV.text = mData[position].message
+
+
+        if (position>0){
+            if (messagedate(mData[position].timestamp)!=messagedate(mData[position-1].timestamp)){
+                holder.dateMessageButton.text = messagedate(mData[position].timestamp)
+            } else {
+                holder.dateMessageButton.visibility = View.GONE
+            }
+
+        } else if (position==0) {
+            holder.dateMessageButton.text = messagedate(mData[position].timestamp)
+        }
+
+
 
 
         if (mData[position].userID==mAuth.currentUser?.uid.toString()){
@@ -61,12 +78,14 @@ class MessageAdapter(
         var messageItemTV: TextView
         var messageRL: RelativeLayout
         var messageItemLL: LinearLayout
+        var dateMessageButton: TextView
 
         init {
             messageRL = itemView.findViewById(R.id.messageCLayout)
             messageItemTV = itemView.findViewById(R.id.messageItemTV)
             timestampTV = itemView.findViewById(R.id.msgTimeTV)
             messageItemLL = itemView.findViewById(R.id.messageItem)
+            dateMessageButton = itemView.findViewById(R.id.dateMessageItem)
 
         }
     }
@@ -80,6 +99,37 @@ class MessageAdapter(
         val curFormater = SimpleDateFormat("HH:mm")
         val newDateStr = curFormater.format(pasTime)
         return newDateStr
+    }
+
+    fun messagedate(time: String?): String? {
+
+        var covTimess = ""
+
+
+        val dateFormat =
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+        val pasTime = dateFormat.parse(time)
+
+        val curFormater = SimpleDateFormat("dd MMMM yyyy")
+        val newDateStr = curFormater.format(pasTime)
+
+        if (isYesterday(pasTime.time)){
+            covTimess = "Yesterday"
+        } else if (isToday(pasTime.time)){
+            covTimess = "Today"
+        } else {
+            covTimess = newDateStr
+        }
+
+        return covTimess
+    }
+
+    fun isYesterday(whenInMillis: Long): Boolean {
+        return DateUtils.isToday(whenInMillis + DateUtils.DAY_IN_MILLIS)
+    }
+
+    fun isToday(whenInMillis: Long): Boolean {
+        return DateUtils.isToday(whenInMillis)
     }
 
 

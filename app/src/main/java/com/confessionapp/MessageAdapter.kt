@@ -37,31 +37,35 @@ class MessageAdapter(
         holder.messageItemTV.text = mData[position].message
 
 
-        if (position>0){
+        if (position==0){
+
+            holder.dateMessageButton.text = messagedate(mData[position].timestamp)
+
+        } else if (position>0) {
+
             if (messagedate(mData[position].timestamp)!=messagedate(mData[position-1].timestamp)){
                 holder.dateMessageButton.text = messagedate(mData[position].timestamp)
             } else {
                 holder.dateMessageButton.visibility = View.GONE
             }
 
-        } else if (position==0) {
-            holder.dateMessageButton.text = messagedate(mData[position].timestamp)
         }
 
 
 
 
-        if (mData[position].userID==mAuth.currentUser?.uid.toString()){
-            holder.messageRL.gravity = Gravity.RIGHT
+        if (mData[position].userID!=mAuth.currentUser?.uid.toString()){
 
-            holder.messageRL.setPadding(80, 20,20,20)
-
-            holder.messageItemLL.background = mContext.resources.getDrawable(R.drawable.box_msg_you)
-        } else {
             holder.messageRL.setPadding(20, 20,80,20)
+            holder.messageItemLL.background = mContext.resources.getDrawable(R.drawable.box_msg_from)
             FirebaseDatabase.getInstance().getReference().child("chats")
                 .child(mData[position].chatID!!).child(mData[position].messageID!!)
                 .child("read").setValue(true)
+
+        } else if (mData[position].userID==mAuth.currentUser?.uid.toString()) {
+            holder.messageRL.gravity = Gravity.RIGHT
+            holder.messageRL.setPadding(80, 20,20,20)
+            holder.messageItemLL.background = mContext.resources.getDrawable(R.drawable.box_msg_you)
         }
 
 

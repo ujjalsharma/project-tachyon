@@ -57,6 +57,7 @@ class ChatActivity : AppCompatActivity() {
         messagesRecyclerView = findViewById(R.id.chatMsgRV)
         messagesRecyclerView?.setLayoutManager(layoutManager)
         messagesRecyclerView?.setHasFixedSize(true)
+        messagesRecyclerView?.setItemViewCacheSize(50)
         messagesRecyclerView!!.smoothScrollToPosition(messagesRecyclerView!!.getBottom())
 
 

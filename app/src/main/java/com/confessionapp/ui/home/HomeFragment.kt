@@ -45,6 +45,7 @@ class HomeFragment : Fragment() {
         postRecyclerView = fragmentView.findViewById(R.id.postRV)
         postRecyclerView?.setLayoutManager(LinearLayoutManager(activity))
         postRecyclerView?.setHasFixedSize(true)
+        postRecyclerView?.setItemViewCacheSize(50)
 
         return fragmentView
     }
